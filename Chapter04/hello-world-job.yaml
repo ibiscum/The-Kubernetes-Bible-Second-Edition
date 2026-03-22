@@ -1,16 +1,26 @@
-# hello-world-job.yaml 
-apiVersion: batch/v1 
-kind: Job 
-metadata: 
-  name: hello-world-job 
+# hello-world-job.yaml
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: hello-world-job
+  namespace: default
 spec:
-  template: 
-    metadata: 
-      name: hello-world-job 
-    spec: 
-      restartPolicy: OnFailure 
-      containers: 
-      - name: hello-world-container 
-        image: busybox 
-        command: ["/bin/sh", "-c"] 
+  ttlSecondsAfterFinished: 20
+  template:
+    metadata:
+      name: hello-world-job
+      namespace: default
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: hello-world-container
+        image: busybox:1.36.1
+        resources:
+          requests:
+            cpu: 50m
+            memory: 100Mi
+          limits:
+            cpu: 100m
+            memory: 200Mi
+        command: ["/bin/sh", "-c"]
         args: ["echo 'Hello world'"]

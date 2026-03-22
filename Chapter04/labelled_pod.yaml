@@ -1,12 +1,20 @@
-# labelled_pod.yaml 
-apiVersion: v1 
-kind: Pod 
-metadata: 
-  name: nginx-pod 
-  labels: 
-    environment: prod 
-    tier: frontend 
-spec: 
-  containers: 
+# labelled_pod.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-pod
+  namespace: default
+  labels:
+    environment: prod
+    tier: frontend
+spec:
+  containers:
     - name: nginx-container
-      image: nginx:latest
+      image: nginx:1.29.6
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi

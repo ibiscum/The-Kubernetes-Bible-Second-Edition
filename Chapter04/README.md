@@ -1,11 +1,17 @@
 # Running Your Application Containers
 
 ```shell
+docker run -v ./:/dir stackrox/kube-linter lint /dir
+```
+
+```shell
 $ kubectl run nginx-pod --image nginx:latest
 
 $ kubectl get pods
 NAME        READY   STATUS    RESTARTS   AGE
 nginx-pod   1/1     Running   0          3m13s
+
+$ kubectl get namespace
 ```
 
 
