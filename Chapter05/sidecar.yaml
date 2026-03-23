@@ -6,14 +6,30 @@ metadata:
 spec:
   containers:
     - name: myapp
-      image: alpine:latest
+      image: alpine:3.23
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       command: ['sh', '-c', 'while true; do echo "$(date): logging" >> /opt/logs.txt; sleep 2; done']
       volumeMounts:
         - name: log-volume
           mountPath: /opt
   initContainers:
     - name: logshipper
-      image: alpine:latest
+      image: alpine:3.23
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       restartPolicy: Always
       command: ['sh', '-c', 'tail -F /opt/logs.txt']
       volumeMounts:

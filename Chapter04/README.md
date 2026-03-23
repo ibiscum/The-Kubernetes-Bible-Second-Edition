@@ -1,7 +1,7 @@
 # Running Your Application Containers
 
 ```shell
-docker run -v ./:/dir stackrox/kube-linter lint /dir
+docker run --rm -v ./:/dir stackrox/kube-linter lint /dir
 ```
 
 ```shell
@@ -258,4 +258,6 @@ hello-world-cronjob-28390197-vkzw2   0/1     Completed   0          3m52s
 hello-world-cronjob-28390198-tj6qv   0/1     Completed   0          2m52s
 hello-world-cronjob-28390199-dd666   0/1     Completed   0          112s
 hello-world-cronjob-28390200-kn89r   0/1     Completed   0          52s
+
+kubectl delete -f hello-world-cronjob.yam
 ```

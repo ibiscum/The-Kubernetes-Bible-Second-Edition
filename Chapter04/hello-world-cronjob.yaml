@@ -3,6 +3,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: hello-world-cronjob
+  namespace: default
 spec:
   schedule: "*/1 * * * *"
   # Run every minute
@@ -13,11 +14,19 @@ spec:
       template:
         metadata:
           name: hello-world-cronjob
+          namespace: default
         spec:
           restartPolicy: OnFailure
           containers:
             - name: hello-world-container
-              image: busybox
+              image: busybox:1.31.1
+              resources:
+                requests:
+                  cpu: 50m
+                  memory: 100Mi
+                limits:
+                  cpu: 100m
+                  memory: 200Mi
               imagePullPolicy: IfNotPresent
               command: ["/bin/sh", "-c"]
               args: ["echo 'Hello world'"]

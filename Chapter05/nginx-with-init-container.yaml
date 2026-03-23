@@ -4,6 +4,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: nginx-with-init-container
+  namespace: default
   labels:
     environment: prod
     tier: frontend
@@ -30,7 +31,15 @@ spec:
           mountPath: /usr/share/nginx/html
   containers:
     - name: nginx-container
-      image: nginx:latest
+      image: nginx:1.29.6
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       volumeMounts:
         - name: website-volume
           mountPath: /usr/share/nginx/html

@@ -7,8 +7,16 @@ spec:
   restartPolicy: Never
   initContainers:
     - name: my-init-container
-      image: debian
+      image: debian:13.4-slim
       command: ["sleep", "5"]
   containers:
     - name: nginx-container
-      image: nginx:latest
+      image: nginx:1.29.6
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent

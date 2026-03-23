@@ -7,8 +7,24 @@ spec:
   restartPolicy: Never
   containers:
     - name: nginx-container
-      image: nginx:latest
+      image: nginx:1.29.6
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
     - name: debian-container
-      image: debian
+      image: debian:13.4-slim
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       command: ["sleep"] # Corresponds to the ENTRYPOINT
       args: ["60"] # Corresponds to CMD

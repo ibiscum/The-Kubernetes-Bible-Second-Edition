@@ -6,14 +6,30 @@ metadata:
 spec:
   containers:
     - name: alpine-writer
-      image: alpine:latest
+      image: alpine:3.23
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       command: [ "sh", "-c", "i=1; while true; do echo \"$(date) - log $i\" >> /var/log/app/app.log; i=$((i+1)); sleep 5; done" ]
       volumeMounts:
         - name: log-volume
           mountPath: /var/log/app
       # adapter container
     - name: log-adapter
-      image: alpine:latest
+      image: alpine:3.23
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       command: [ "sh", "-c", "while true; do cat /logs/app.log | sed 's/$/ PROCESSED/' > /logs/processed_app.log; cat /logs/processed_app.log; sleep 10; done" ]
       volumeMounts:
         - name: log-volume

@@ -7,12 +7,28 @@ metadata:
 spec:
   containers:
     - name: nginx-container
-      image: nginx:latest
+      image: nginx:1.29.6
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       volumeMounts:
         - mountPath: /foo
           name: my-host-path-volume
     - name: debian-container
-      image: debian
+      image: debian:13.4-slim
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       command: ["/bin/sh"]
       args: ["-c", "while true; do sleep 30; done;"] # Prevents container from exiting after completion
 

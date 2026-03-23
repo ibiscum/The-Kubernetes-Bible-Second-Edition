@@ -1,16 +1,33 @@
-# nginx-with-ambassador.yaml 
-apiVersion: v1 
-kind: Pod 
-metadata: 
-  name: nginx-with-ambassador 
-spec: 
+# nginx-with-ambassador.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nginx-with-ambassador
+  namespace: default
+spec:
   containers:
     - name: mysql-proxy-ambassador-container
-      image: mysql-proxy:latest
+      image: proxysql:3.0.6
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       ports:
         - containerPort: 3306
       env:
       - name: DB_HOST
         value: mysql.xxx.us-east-1.rds.amazonaws.com
     - name: nginx-container
-      image: nginx:latest
+      image: nginx:1.29.6
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent

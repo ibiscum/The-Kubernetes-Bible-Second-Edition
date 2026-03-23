@@ -7,13 +7,29 @@ spec:
   containers:
     - name: nginx-container
       image: nginx:latest
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       ports:
         - containerPort: 80
       volumeMounts:
         - name: log-volume
           mountPath: /var/log/nginx
     - name: fluentd-sidecar
-      image: fluent/fluentd:v1.17
+      image: fluent/fluentd:v1.19
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       volumeMounts:
         - name: log-volume
           mountPath: /var/log/nginx

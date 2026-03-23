@@ -1,52 +1,58 @@
-# Using Multi-Container Pods and Design Patterns 
+# Using Multi-Container Pods and Design Patterns
+
+```shell
+$ docker run --rm -v ./:/dir stackrox/kube-linter lint /dir
+```
 
 Creating multi-container Pod
 
 ```shell
-$ kubectl create -f multi-container-pod.yaml 
+$ kubectl create -f multi-container-pod.yaml
 pod/multi-container-pod created
 
 
-$ kubectl get pod 
-NAME                  READY   STATUS    RESTARTS   AGE 
-multi-container-pod   2/2     Running   0          2m7s 
+$ kubectl get pod
+NAME                  READY   STATUS    RESTARTS   AGE
+multi-container-pod   2/2     Running   0          2m7s
 
-$ kubectl logs multi-container-pod -c debian-container 
-Mon Jan  8 01:33:23 UTC 2024 
-debian-container 
-Mon Jan  8 01:33:28 UTC 2024 
-debian-container 
-...<removed for brevity>... 
- 
-$ kubectl logs multi-container-pod -c nginx-container 
-/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration 
-...<removed for brevity>... 
-2024/01/08 01:33:20 [notice] 1#1: start worker process 39 
-2024/01/08 01:33:20 [notice] 1#1: start worker process 40 
+$ kubectl logs multi-container-pod -c debian-container
+Mon Jan  8 01:33:23 UTC 2024
+debian-container
+Mon Jan  8 01:33:28 UTC 2024
+debian-container
+...<removed for brevity>...
+
+$ kubectl logs multi-container-pod -c nginx-container
+/docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+...<removed for brevity>...
+2024/01/08 01:33:20 [notice] 1#1: start worker process 39
+2024/01/08 01:33:20 [notice] 1#1: start worker process 40
 ```
 Testing multi-container Pod with invalid image
 
 ```shell
-$ kubectl apply -f failed-multi-container-pod.yaml  
-pod/failed-multi-container-pod created 
+$ kubectl apply -f failed-multi-container-pod.yaml
+pod/failed-multi-container-pod created
 
-$ kubectl get pod  
-NAME                         READY   STATUS             RESTARTS   AGE 
-failed-multi-container-pod   1/2     ImagePullBackOff   0          93s 
+$ kubectl get pod
+NAME                         READY   STATUS             RESTARTS   AGE
+failed-multi-container-pod   1/2     ImagePullBackOff   0          93s
+
+$ kubectl describe pod failed-multi-container-pod
 ```
 
 Deleting multi-container pods
 
 ```shell
-$ kubectl delete -f multi-container-pod.yaml 
+$ kubectl delete -f multi-container-pod.yaml
 
-## Otherwise, if you already know the Pod's name, you can do this as follows: 
-$ kubectl delete pods/multi-pod 
+## Otherwise, if you already know the Pod's name, you can do this as follows:
+$ kubectl delete pods/multi-container-pod
 
-## or equivalent 
-$ kubectl delete pods multi-pod 
+## or equivalent
+$ kubectl delete pods multi-container-pod
 
-$  kubectl delete pod failed-multi-container-pod --grace-period=0 --force
+$ kubectl delete pod failed-multi-container-pod --grace-period=0 --force
 Warning: Immediate deletion does not wait for confirmation that the running resource has been terminated. The resource may continue to run on the cluster indefinitely.
 pod "failed-multi-container-pod" force deleted
 ```
@@ -54,7 +60,7 @@ pod "failed-multi-container-pod" force deleted
 Accessing Container
 
 ```shell
-$  kubectl describe pod multi-container-pod 
+$ kubectl describe pod multi-container-pod
 Name:             multi-container-pod
 Namespace:        default
 Priority:         0
@@ -101,11 +107,11 @@ Containers:
       /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-lbkc9 (ro)
 Conditions:
   Type                        Status
-  PodReadyToStartContainers   True 
-  Initialized                 True 
-  Ready                       True 
-  ContainersReady             True 
-  PodScheduled                True 
+  PodReadyToStartContainers   True
+  Initialized                 True
+  Ready                       True
+  ContainersReady             True
+  PodScheduled                True
 Volumes:
   kube-api-access-lbkc9:
     Type:                    Projected (a volume that contains injected data from multiple sources)
@@ -136,13 +142,13 @@ $ kubectl get pod/multi-container-pod -o jsonpath="{.spec.containers[*].name}"
 nginx-container debian-container
 
 $ kubectl exec -it multi-container-pod --container nginx-container -- /bin/bash
-root@multi-container-pod:/# hostname 
+root@multi-container-pod:/# hostname
 multi-container-pod
-root@multi-container-pod:/# 
+root@multi-container-pod:/#
 ```
 
 ```shell
-$  kubectl exec pods/multi-container-pod -c nginx-container -- ls
+$ kubectl exec pods/multi-container-pod -c nginx-container -- ls
 bin
 boot
 dev
@@ -169,7 +175,7 @@ var
 ```
 
 ```shell
- $ kubectl create -f nginx-debian-with-custom-command-and-args.yaml 
+ $ kubectl create -f nginx-debian-with-custom-command-and-args.yaml
 pod/nginx-debian-with-custom-command-and-args created
 
 $ kubectl get po -w
@@ -177,11 +183,12 @@ NAME                                        READY   STATUS              RESTARTS
 nginx-debian-with-custom-command-and-args   0/2     ContainerCreating   0          2s
 nginx-debian-with-custom-command-and-args   2/2     Running             0          6s
 nginx-debian-with-custom-command-and-args   1/2     NotReady            0          66s
+
+$ kubectl delete pods nginx-debian-with-custom-command-and-args
 ```
 
-
 ```shell
-$ kubectl create -f nginx-with-init-container.yaml 
+$ kubectl create -f nginx-with-init-container.yaml
 pod/nginx-with-init-container created
 
 $ kubectl get po -w
@@ -190,10 +197,12 @@ nginx-with-init-container   0/1     Init:0/1   0          3s
 nginx-with-init-container   0/1     Init:0/1   0          4s
 nginx-with-init-container   0/1     PodInitializing   0          19s
 nginx-with-init-container   1/1     Running           0          22s
+
+$ kubectl exec -it nginx-with-init-container --container nginx-container -- /bin/bash
 ```
 
 ```shell
-$ kubectl logs multi-container-pod 
+$ kubectl logs multi-container-pod
 Defaulted container "nginx-container" out of: nginx-container, debian-container
 /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
 /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
@@ -206,7 +215,7 @@ Defaulted container "nginx-container" out of: nginx-container, debian-container
 /docker-entrypoint.sh: Configuration complete; ready for start up
 2024/02/04 16:35:55 [notice] 1#1: using the "epoll" event method
 2024/02/04 16:35:55 [notice] 1#1: nginx/1.25.3
-2024/02/04 16:35:55 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14) 
+2024/02/04 16:35:55 [notice] 1#1: built by gcc 12.2.0 (Debian 12.2.0-14)
 2024/02/04 16:35:55 [notice] 1#1: OS: Linux 6.6.8-200.fc39.x86_64
 2024/02/04 16:35:55 [notice] 1#1: getrlimit(RLIMIT_NOFILE): 1048576:1048576
 2024/02/04 16:35:55 [notice] 1#1: start worker processes
@@ -227,10 +236,10 @@ Defaulted container "nginx-container" out of: nginx-container, debian-container
 ## Volumes
 
 ```shell
-$ kubectl create -f multi-container-with-emptydir-pod.yaml 
+$ kubectl create -f multi-container-with-emptydir-pod.yaml
 pod/multi-container-with-emptydir-pod created
 
-$ kubectl get po
+$ kubectl get pods
 NAME                                READY   STATUS    RESTARTS   AGE
 multi-container-with-emptydir-pod   2/2     Running   0          25s
 ```
@@ -252,7 +261,7 @@ tmp
 ```
 
 ```shell
-$  kubectl exec multi-container-with-emptydir-pod -c debian-container -- bin/sh -c "echo 'hello world' >> /var/i-am-empty-dir-volume/hello-world.txt" 
+$  kubectl exec multi-container-with-emptydir-pod -c debian-container -- bin/sh -c "echo 'hello world' >> /var/i-am-empty-dir-volume/hello-world.txt"
 
 $ kubectl exec multi-container-with-emptydir-pod -c nginx-container -- cat /var/i-am-empty-dir-volume/hello-world.txt
 hello world
@@ -264,5 +273,26 @@ hello world
 Hostpath Volume
 
 ```shell
-$ echo "Hello World" >> /tmp/hello-world.txt 
+$ echo "Hello World" >> /tmp/hello-world.txt
+```
+
+## Adapter
+
+```shell
+$ kubectl apply -f alpine-with-adapter.yaml
+pod/pod-with-adapter created
+
+$ kubectl exec -it pod-with-adapter -c alpine-writer -- head -5 /var/log/app/app.log
+Mon Mar 23 00:31:52 UTC 2026 - log 1
+Mon Mar 23 00:31:57 UTC 2026 - log 2
+Mon Mar 23 00:32:02 UTC 2026 - log 3
+Mon Mar 23 00:32:07 UTC 2026 - log 4
+Mon Mar 23 00:32:12 UTC 2026 - log 5
+
+$ kubectl exec -it pod-with-adapter -c log-adapter -- head -5 /logs/processed_app.log
+Mon Mar 23 00:31:52 UTC 2026 - log 1 PROCESSED
+Mon Mar 23 00:31:57 UTC 2026 - log 2 PROCESSED
+Mon Mar 23 00:32:02 UTC 2026 - log 3 PROCESSED
+Mon Mar 23 00:32:07 UTC 2026 - log 4 PROCESSED
+Mon Mar 23 00:32:12 UTC 2026 - log 5 PROCESSED
 ```
