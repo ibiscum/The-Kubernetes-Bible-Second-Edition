@@ -7,6 +7,14 @@ spec:
   containers:
     - name: nginx-pod-with-startupprobe
       image: nginx
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       ports:
         - name: liveness-port
           containerPort: 8080

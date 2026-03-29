@@ -3,6 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: immutable-configmap
+  namespace: kubernetes-bible
 data:
   color: "blue"
   version: "1.0"

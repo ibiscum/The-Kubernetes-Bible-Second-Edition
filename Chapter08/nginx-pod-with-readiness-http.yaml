@@ -7,6 +7,14 @@ spec:
   containers:
     - name: nginx-pod-with-readiness-http
       image: nginx
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       readinessProbe:
         initialDelaySeconds: 5
         periodSeconds: 5

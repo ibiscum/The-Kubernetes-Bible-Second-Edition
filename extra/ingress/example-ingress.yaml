@@ -2,6 +2,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
+  namespace: kubernetes-bible
   name: example-ingress
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /

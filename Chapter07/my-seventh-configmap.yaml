@@ -2,6 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: my-seventh-configmap
+  namespace: kubernetes-bible
 data:
   color: "green"
   configfile.txt: |

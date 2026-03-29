@@ -3,10 +3,19 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: flask-pod-with-configmap-all
+  namespace: kubernetes-bible
 spec:
   containers:
     - name: flask-with-configmap
       image: quay.io/iamgini/my-flask-app:1.0
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       envFrom:
         - configMapRef:
             name: my-fourth-configmap

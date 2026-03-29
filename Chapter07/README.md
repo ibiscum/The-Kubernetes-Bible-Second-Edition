@@ -5,6 +5,9 @@ linting:
     docker run --rm -v .:/dir stackrox/kube-linter lint /dir
 
 ```shell
+$ kubectl create namespace kubernetes-bible
+$ kubectl config set-context --current --namespace=kubernetes-bible
+$ kubectl config view --minify --output 'jsonpath={..namespace}'
 $ kubectl get configmaps
 
 # Alternatively, you can use the shorter alias, which is cm:
@@ -101,7 +104,7 @@ my-eight-configmap   4      7s
 Read ConfigMap
 
 ```shell
-$  kubectl describe cm my-fourth-configmap
+$ kubectl describe cm my-fourth-configmap
 Name:         my-fourth-configmap
 Namespace:    default
 Labels:       <none>
@@ -173,6 +176,8 @@ http://192.168.49.2:31997
 ```shell
 $ kubectl apply -f flask-pod-with-configmap-all.yaml
 pod/flask-pod-2-with-configmap created
+
+$ kubectl describe pod flask-pod-with-configmap-all
 
 $ kubectl exec pods/flask-pod-with-configmap-all -- env
 PATH=/usr/local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin

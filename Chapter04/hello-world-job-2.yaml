@@ -4,7 +4,6 @@ kind: Job
 metadata:
   name: hello-world-job-2
   namespace: kubernetes-bible
-
 spec:
   backoffLimit: 3
   template:

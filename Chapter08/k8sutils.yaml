@@ -3,11 +3,19 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: k8sutils
-  namespace: default
+  namespace: kubernetes-bible
 spec:
   containers:
     - name: k8sutils
       image: quay.io/iamgini/k8sutils:debian12
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       command:
         - sleep
         - "infinity"

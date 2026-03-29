@@ -3,9 +3,18 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: new-nginx-pod
+  namespace: kubernetes-bible
 spec:
   containers:
     - image: nginx:1.17
       name: new-nginx-container
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      imagePullPolicy: IfNotPresent
       ports:
         - containerPort: 80
