@@ -17,6 +17,13 @@ spec:
       containers:
         - name: myapp
           image: alpine:latest
+          resources:
+            requests:
+              cpu: 50m
+              memory: 100Mi
+            limits:
+              cpu: 100m
+              memory: 200Mi
           command: ['sh', '-c', 'while true; do echo "logging" >> /opt/logs.txt; sleep 1; done']
           volumeMounts:
             - name: data

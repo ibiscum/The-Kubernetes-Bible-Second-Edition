@@ -3,6 +3,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: pod-with-adapter
+  namespace: kubernetes-bible
+
 spec:
   containers:
     - name: alpine-writer

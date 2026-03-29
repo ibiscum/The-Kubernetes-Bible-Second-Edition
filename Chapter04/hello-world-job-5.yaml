@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: hello-world-job-5
-  namespace: default
+  namespace: kubernetes-bible
 spec:
   backoffLimit: 3
   activeDeadlineSeconds: 60

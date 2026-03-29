@@ -4,6 +4,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: multi-container-with-emptydir-pod
+  namespace: kubernetes-bible
+
 spec:
   containers:
     - name: nginx-container

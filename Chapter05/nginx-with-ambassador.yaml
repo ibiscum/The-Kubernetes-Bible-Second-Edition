@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: nginx-with-ambassador
-  namespace: default
+  namespace: kubernetes-bible
 spec:
   containers:
     - name: mysql-proxy-ambassador-container

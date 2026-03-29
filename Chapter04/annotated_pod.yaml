@@ -5,7 +5,7 @@ metadata:
   annotations:
     tier: webserver
   name: nginx-pod
-  namespace: default
+  namespace: kubernetes-bible
   labels:
     environment: prod
     tier: frontend

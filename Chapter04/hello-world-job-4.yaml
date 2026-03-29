@@ -9,7 +9,7 @@ spec:
   template:
     metadata:
       name: hello-world-job-4
-      namespace: default
+      namespace: kubernetes-bible
     spec:
       restartPolicy: OnFailure
       containers:

@@ -1,5 +1,9 @@
 # Configuring Your Pods Using ConfigMaps and Secrets
 
+linting:
+
+    docker run --rm -v .:/dir stackrox/kube-linter lint /dir
+
 ```shell
 $ kubectl get configmaps
 
@@ -76,9 +80,9 @@ configmap/my-fifth-configmap created
 ```
 
 ```shell
-$ echo "I'm just a dummy config file" >> $HOME/configfile.txt
+$ echo "I'm just a dummy config file" >> ./configfile.txt
 
-$ kubectl create cm my-sixth-configmap --from-literal=color=yellow --from-file=$HOME/configfile.txt
+$ kubectl create cm my-sixth-configmap --from-literal=color=yellow --from-file=./configfile.txt
 
 $ kubectl get cm my-sixth-configmap
 NAME                 DATA   AGE

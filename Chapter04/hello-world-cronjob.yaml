@@ -3,7 +3,7 @@ apiVersion: batch/v1
 kind: CronJob
 metadata:
   name: hello-world-cronjob
-  namespace: default
+  namespace: kubernetes-bible
 spec:
   schedule: "*/1 * * * *"
   # Run every minute
@@ -14,7 +14,7 @@ spec:
       template:
         metadata:
           name: hello-world-cronjob
-          namespace: default
+          namespace: kubernetes-bible
         spec:
           restartPolicy: OnFailure
           containers:

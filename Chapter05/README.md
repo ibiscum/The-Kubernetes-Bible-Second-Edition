@@ -1,5 +1,9 @@
 # Using Multi-Container Pods and Design Patterns
 
+linting:
+
+    docker run --rm -v .:/dir stackrox/kube-linter lint /dir
+
 ```shell
 $ docker run --rm -v ./:/dir stackrox/kube-linter lint /dir
 ```

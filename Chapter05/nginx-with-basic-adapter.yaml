@@ -3,22 +3,38 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: nginx-with-adapter
+  namespace: kubernetes-bible
+
 spec:
   containers:
-  - name: nginx-container
-    image: nginx:latest
-    ports:
-    - containerPort: 80
-    volumeMounts:
-    - name: log-volume
-      mountPath: /var/log/nginx
-  - name: log-converter
-    image: log-converter-image:latest
-    #to be replaced with the correct log collection agent image
+    - name: nginx-container
+      image: nginx:latest
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
+      ports:
+        - containerPort: 80
+      volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/nginx
+    - name: log-converter
+      image: log-converter-image:latest
+      #to be replaced with the correct log collection agent image
+      resources:
+        requests:
+          cpu: 50m
+          memory: 100Mi
+        limits:
+          cpu: 100m
+          memory: 200Mi
 
-    volumeMounts:
-    - name: log-volume
-      mountPath: /var/log/nginx
+      volumeMounts:
+        - name: log-volume
+          mountPath: /var/log/nginx
   volumes:
-  - name: log-volume
-    emptyDir: {}
+    - name: log-volume
+      emptyDir: {}

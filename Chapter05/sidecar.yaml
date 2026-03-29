@@ -3,6 +3,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: sidecar
+  namespace: kubernetes-bible
 spec:
   containers:
     - name: myapp

@@ -3,7 +3,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: nginx-pod
-  namespace: default
+  namespace: kubernetes-bible
   labels:
     environment: prod
     tier: frontend

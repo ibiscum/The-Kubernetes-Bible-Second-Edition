@@ -3,7 +3,8 @@ apiVersion: batch/v1
 kind: Job
 metadata:
   name: hello-world-job-3
-  namespace: default
+  namespace: kubernetes-bible
+
 spec:
   backoffLimit: 3
   completions: 10

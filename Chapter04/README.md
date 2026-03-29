@@ -1,5 +1,9 @@
 # Running Your Application Containers
 
+linting:
+
+    docker run --rm -v .:/dir stackrox/kube-linter lint /dir
+
 ```shell
 docker run --rm -v ./:/dir stackrox/kube-linter lint /dir
 ```

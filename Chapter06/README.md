@@ -1,5 +1,9 @@
 # Managing Namespaces in Kubernetes
 
+linting:
+
+    docker run --rm -v .:/dir stackrox/kube-linter lint /dir
+
 ```shell
 $ kubectl get namespaces
 NAME              STATUS   AGE

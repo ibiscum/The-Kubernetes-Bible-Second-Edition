@@ -3,6 +3,8 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: nginx-debian-with-custom-command-and-args
+  namespace: kubernetes-bible
+
 spec:
   restartPolicy: Never
   containers:

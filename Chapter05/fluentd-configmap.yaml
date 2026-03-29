@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: fluentd-config-map
-  namespace: default
+  namespace: kubernetes-bible
 data:
   fluentd.conf: |
     <source>
